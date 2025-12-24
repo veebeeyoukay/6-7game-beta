@@ -43,9 +43,12 @@ The Watch App is a native SwiftUI app for Apple Watch.
 
 **Build Instructions:**
 1.  Open Xcode.
-2.  Create a new project named **"the6-7game"** (watchOS App).
-3.  Replace the default files with the source files located in `watch-app/The67Game Watch App/`.
-    *   Ensure `The6_7GameApp.swift` is your entry point.
+2.  Create a new project in Xcode with the Product Name **"the6-7game"** (Watch-only App).
+    *   Organization Identifier: `net.metafan`
+    *   Point the project location to `6-7game-beta/watch-app/`.
+3.  Drag the **`Services` folder** and all **Swift files** from `watch-app/The67Game Watch App/` into your new Xcode project group.
+    *   **Important:** Select "Copy items if needed".
+    *   Replace any default files (like `ContentView.swift` or `the6_7gameApp.swift`) if prompted.
 4.  Select a Watch Simulator and run (`Cmd + R`).
 
 ### 3. Backend (Supabase)
