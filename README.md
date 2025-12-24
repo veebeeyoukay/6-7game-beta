@@ -59,6 +59,7 @@ The backend is hosted on Supabase.
 
 *   **Authentication**: Email/Password login for parents.
 *   **Family Management**: Add children and generate pairing codes.
+    *   *Includes "Pull to Refresh" to update connection status.*
 *   **Pairing**: Securely link Watch App to Parent Account via 6-digit PIN.
 *   **Practice Mode**: Answer fast-paced math questions on the watch.
 *   **Battles**: Parent vs. Child async math battles (MVP logic).
