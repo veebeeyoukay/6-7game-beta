@@ -30,5 +30,6 @@ npx supabase functions deploy validate-pairing-code --no-verify-jwt
 npx supabase functions deploy generate-battle --no-verify-jwt
 npx supabase functions deploy process-answer --no-verify-jwt
 npx supabase functions deploy get-child-progress --no-verify-jwt
+npx supabase functions deploy preview-questions --no-verify-jwt
 
 echo "✅ Backend setup complete!"
