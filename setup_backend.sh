@@ -20,8 +20,8 @@ npx supabase db push
 
 # 4. Set Secrets
 echo "🔑 Setting secrets..."
-# 3. Set OpenAI/Anthropic Key (if needed for Edge Functions)
-supabase secrets set ANTHROPIC_API_KEY="your_api_key_here"
+# 3. Set OpenAI/Anthropic/Google Key (if needed for Edge Functions)
+supabase secrets set GOOGLE_API_KEY="your_google_api_key_here"
 
 # 5. Deploy Edge Functions
 echo "⚡ Deploying Edge Functions..."

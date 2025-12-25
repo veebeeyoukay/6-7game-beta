@@ -1,0 +1,190 @@
+# Phase 2 Development Plan: The 6-7 Game
+
+## Goal Description
+Transform the MVP into a polished, Apple-quality family gaming platform. This phase focuses on the Parent Experience (Onboarding, KYC, Analytics), Child Experience (Avatar, Multiple Choice), and the Family Ecosystem (Calendar, Behavioral Validation).
+
+## User Review Required
+> [!IMPORTANT]
+> This is a hands-off phase for the user. The plan must be comprehensive enough for an agent to execute autonomously.
+> **Critical Validation:** Verify Learning Commons MCP integration via the Parent Preview Mode.
+
+## Proposed Changes
+
+### Phase 2A: Core Polish
+
+#### 1. Parent Onboarding Flow
+**Goal:** Complete profile, KYC, and family setup.
+
+*   **Database Changes:**
+    *   `users`: Add `first_name`, `last_name`, `dob`, `state`, `zip`, `kyc_url`, `onboarding_completed`.
+    *   `families`: Add `adults_count`.
+    *   `family_members`: New table for multi-adult households.
+    *   `children`: Add `birth_month`, `birth_year`, `avatar_config`.
+*   **API/Backend:**
+    *   Update `auth` endpoints to handle new user fields.
+    *   Integrate ID verification (simulated or placeholder for now if specific provider not given).
+*   **UI (Parent App):**
+    *   Multi-step wizard: Welcome -> Profile -> KYC -> Family -> Invites -> Children -> Completion.
+
+**GitHub Issues:**
+*   `[FEAT] Database Migration for User Profile & Family`
+*   `[FEAT] Parent Onboarding Screens (Wizard Flow)`
+*   `[FEAT] KYC Document Upload & Verification Logic`
+
+**Test Cases:**
+*   [ ] User can complete onboarding from fresh signup.
+*   [ ] User data is correctly persisted in Supabase `users` table.
+*   [ ] Family members are correctly linked in `family_members`.
+*   [ ] KYC upload stores file path/URL (mock valid).
+
+#### 2. Navigation Bar & Analytics Dashboard
+**Goal:** Professional navigation and "at a glance" family status.
+
+*   **UI (Parent App):**
+    *   Implement Tab Bar: Home, Calendar, Battles, Settings.
+    *   Home Dashboard: Total Mollars, Battles/Week, Streak counters.
+
+**GitHub Issues:**
+*   `[FEAT] Main Tab Navigation Implementation`
+*   `[FEAT] Home Dashboard Analytics Widgets`
+
+**Test Cases:**
+*   [ ] Tabs navigate to correct screens.
+*   [ ] Dashboard shows real data from DB (Mollars, Streaks).
+*   [ ] UI handles empty states (no battles yet).
+
+#### 3. Child Profile Detail Screen
+**Goal:** Detailed view and management of child's progress.
+
+*   **UI (Parent App):**
+    *   Child Card details: Avatar, Name, Grade, Pairing Status, History.
+    *   Edit/Disconnect functionality.
+
+**GitHub Issues:**
+*   `[FEAT] Child Detail View Component`
+*   `[FEAT] Edit Child & Disconnect Watch Logic`
+
+**Test Cases:**
+*   [ ] Clicking child on dashboard opens Detail View.
+*   [ ] Updates to Name/Grade reflect in DB.
+*   [ ] Disconnect Watch clears pairing data.
+
+#### 4. Multiple Choice on Watch
+**Goal:** Kid-friendly input method.
+
+*   **UI (Watch App):**
+    *   Replace keyboard input with 2x2 grid of options.
+    *   Logic to generate 3 distractors along with the correct answer.
+
+**GitHub Issues:**
+*   `[FEAT] Multiple Choice UI for Watch App`
+*   `[FEAT] Answer Generation Logic (Distractors)`
+
+**Test Cases:**
+*   [ ] Quiz displays 4 options.
+*   [ ] Tapping correct option registers win.
+*   [ ] Tapping incorrect option registers loss.
+*   [ ] Distractors are plausible (e.g., 7x8 = 56, dist: 54, 48, 64).
+
+### Phase 2B: Family Ecosystem
+
+#### 5. Family Calendar
+**Goal:** Scheduling and tracking family activity.
+
+*   **Database Changes:**
+    *   `family_events`: Schedule battles, activities.
+    *   `event_completions`: Track status.
+*   **UI (Parent App):**
+    *   Calendar View (Month/Day).
+    *   Add Event Modal.
+
+**GitHub Issues:**
+*   `[FEAT] Family Calendar Database Schema`
+*   `[FEAT] Calendar UI & Event Creation`
+
+**Test Cases:**
+*   [ ] Created event appears on calendar.
+*   [ ] Event persists to `family_events` table.
+
+#### 6. Behavioral Validation Battles
+**Goal:** Gamify real-world tasks.
+
+*   **Database Changes:**
+    *   `validation_categories`, `validation_tasks`, `validation_requests`.
+*   **UI (Watch App):**
+    *   Task list -> "Request Validation".
+*   **UI (Parent App):**
+    *   Notification/Inbox for requests -> Approve/Deny.
+
+**GitHub Issues:**
+*   `[FEAT] Behavioral Validation Schema`
+*   `[FEAT] Task Request Flow on Watch`
+*   `[FEAT] Parent Approval Workflow`
+
+**Test Cases:**
+*   [ ] Watch request creates `validation_request` entry.
+*   [ ] Parent approval grants Mollars.
+*   [ ] Denial records status.
+
+### Phase 2C: Child Experience
+
+#### 7. Avatar Customization (Watch)
+**Goal:** Personalization.
+
+*   **UI (Watch App):**
+    *   Customization flow: Base -> Hair -> Skin -> Colors.
+    *   Save config to `children` table.
+
+**GitHub Issues:**
+*   `[FEAT] Avatar Customization UI on Watch`
+
+**Test Cases:**
+*   [ ] Selected options save to DB JSONB.
+*   [ ] Avatar renders correctly based on saved config.
+
+#### 8. Visual Pairing
+**Goal:** Easier, secure pairing.
+
+*   **Logic:**
+    *   Parent sees 4 digits + pattern.
+    *   Watch shows 4 digits.
+    *   Child taps pattern.
+
+**GitHub Issues:**
+*   `[FEAT] Visual Pairing Logic & UI`
+
+**Test Cases:**
+*   [ ] Correct pattern tap pairs device.
+*   [ ] Incorrect pattern fails/retries.
+
+### Phase 2E: Referral Engines
+
+#### 9. Referral System
+**Goal:** Viral growth.
+
+*   **Database:**
+    *   `referral_codes` on users.
+    *   `referral_events` tracking.
+*   **Edge Functions:**
+    *   `track-referral-click`
+    *   `process-referral-signup`
+
+**GitHub Issues:**
+*   `[FEAT] Referral Database Schema & Code Gen`
+*   `[FEAT] Referral Tracking Edge Functions`
+*   `[FEAT] Referral Dashboard UI`
+
+**Test Cases:**
+*   [ ] Signing up with code links users.
+*   [ ] Rewards granted upon trigger events.
+
+## Verification Plan
+
+### Automated Tests
+*   **Unit Tests:** Jest tests for utility functions (Referral code gen, distractor logic).
+*   **Integration Tests:** Supabase local testing for DB migrations and Edge Functions.
+
+### Manual Verification
+*   **Parent App:** Run via Expo on Simulator/Device. Step through Onboarding, Dashboard, Calendar.
+*   **Watch App:** Run on Watch Simulator. Test Quiz UI, Avatar flow.
+*   **End-to-End:** Complete a full loop: Signup -> Add Child -> Pair Watch -> Play Battle -> Check Analytics.

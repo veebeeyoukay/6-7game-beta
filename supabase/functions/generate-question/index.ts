@@ -1,21 +1,20 @@
 // supabase/functions/generate-question/index.ts
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import Anthropic from "npm:@anthropic-ai/sdk"
-
-const anthropic = new Anthropic({
-  apiKey: Deno.env.get('ANTHROPIC_API_KEY')
-})
+import { GoogleGenerativeAI } from "npm:@google/generative-ai@0.14.0"
 
 serve(async (req) => {
+  const apiKey = Deno.env.get('GOOGLE_API_KEY')
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: 'GOOGLE_API_KEY is not set' }), { status: 500 })
+  }
+
   const { state, grade, subject, difficulty, count, exclude_standards, focus_components } = await req.json()
 
   try {
-    const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 2000,
-      messages: [{
-        role: "user",
-        content: `Generate ${count || 1} multiple choice quiz question(s) for a ${grade}th grade student in ${state}.
+    const genAI = new GoogleGenerativeAI(apiKey)
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+
+    const prompt = `Generate ${count || 1} multiple choice quiz question(s) for a ${grade}th grade student in ${state}.
 
 Requirements:
 - Subject: ${subject || 'any'}
@@ -38,19 +37,23 @@ Return JSON array with this structure for each question:
 }
 
 Return ONLY valid JSON, no markdown.`
-      }],
-      // Note: MCP servers configuration might differ in actual deployment depending on Supabase support.
-      // This is a placeholder for how it interacts conceptually.
-      // In a real Edge Function, you might need to proxy the request or use a specific library if Supabase supports MCP natively.
-    })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
-    const questions = JSON.parse(text.replace(/```json|```/g, '').trim())
+    const result = await model.generateContent(prompt)
+    const response = await result.response
+    const text = response.text()
+
+    let questions
+    try {
+      questions = JSON.parse(text.replace(/```json|```/g, '').trim())
+    } catch (e) {
+      console.error("Failed to parse JSON:", text)
+      throw new Error("Invalid format from AI")
+    }
 
     return new Response(JSON.stringify({ questions }), {
       headers: { "Content-Type": "application/json" }
     })
-  } catch (error) {
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
