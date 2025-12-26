@@ -1,72 +1,87 @@
 # The 6-7 Game (Beta)
 
-**The 6-7 Game** is a math learning ecosystem designed to help 2nd-5th graders master multiplication facts through gamified practice and battles.
+**The 6-7 Game** is a comprehensive gamified parenting and education platform. It turns math practice and daily chores into a "Mollar" economy, allowing 2nd-5th graders to earn currency through learning and validated behavior.
 
-## Project Structure
+## 🏗️ Architecture & Tech Stack
 
-*   **`parent-app/`**: React Native (Expo) application for parents.
-    *   Manage family and children.
-    *   Monitor progress and Mollar balance.
-    *   Configure battles and pairing.
-*   **`watch-app/`**: Swift (WatchOS) application for children.
-    *   Pairing with Parent App.
-    *   Math practice mode.
-    *   Real-time battles.
-*   **`supabase/`**: Backend infrastructure.
-    *   Database schema and migrations.
-    *   Edge Functions (AI question generation, battle logic).
+This project is a **monorepo** containing the complete ecosystem:
 
-## Getting Started
+*   **Parent App (`parent-app/`)**:
+    *   **Framework**: React Native with **Expo** (TypeScript).
+    *   **Routing**: Expo Router (File-based routing).
+    *   **Key Features**: Family Dashboard, Child Management, Calendar (Mustard/Ketchup/Pickle taxes), Referral Dashboard.
+*   **Watch App (`watch-app/`)**:
+    *   **Framework**: Native **SwiftUI** (WatchOS).
+    *   **Key Features**: 2x2 Math Grid, Smart Distractors, Interactive Avatar, Time Overlay.
+*   **Backend (`supabase/`)**:
+    *   **Database**: PostgreSQL with extensive **Row Level Security (RLS)** for multi-parent/family privacy.
+    *   **Edge Functions**: Deno/TypeScript.
+        *   `preview-questions`: Generates math problems using **Google Gemini 2.0 Flash**.
+        *   `track-referral`: Handles viral growth loops.
+    *   **Auth**: Supabase Auth (Email/Password).
 
-### 1. Parent App (Parent/Admin)
+## 🚀 Key Features (Dev Status)
 
-The Parent App is built with Expo.
+### 1. Family Ecosystem
+*   **Multi-Parent Support**: Supports multiple adults (`role='adult'`) managing a single family via shared RLS policies.
+*   **Child Accounts**: Managed profiles with grade-level settings and device pairing.
+*   **Onboarding**: Multi-step wizard collecting Profile, KYC (placeholder), and Family Setup.
 
-**Prerequisites:**
-*   Node.js & npm
-*   Expo Go app on your phone (or a Simulator)
+### 2. The Game (Watch App)
+*   **Math Logic**: Custom `GameLogic` engine generating grade-appropriate questions.
+*   **Smart Distractors**: Algorithmically generates plausible wrong answers (e.g., close numbers, transpositions) to test mastery.
+*   **UI**: Kid-friendly 2x2 grid with haptic feedback and persistent time visibility.
 
-**Run the App:**
+### 3. Productivity & Calendar
+*   **Task Taxonomy**:
+    *   **Mustard**: Must-do items (High priority).
+    *   **Ketchup**: Catch-up items (Overdue).
+    *   **Pickle**: Pickle-your-task (Optional/Fun).
+*   **Validation**: Parents receive logic-based requests to validate task completion.
+
+### 4. Viral Growth
+*   **Referral Engine**: DB Triggers automatically reward referrers when new users complete onboarding.
+*   **Tracking**: Dedicated `referral_events` table and dashboard.
+
+## 🛠️ Developer Setup
+
+### Prerequisites
+*   Node.js 18+
+*   Xcode 15+ (for Watch App)
+*   Supabase CLI
+
+### 1. Setup Parent App
 ```bash
 cd parent-app
 npm install
 npx expo start -c
 ```
-Scan the QR code with your phone.
+*Use the `setup_backend.sh` script to sync your local environment variables.*
 
-### 2. Watch App (Child/Player)
+### 2. Setup Watch App
+1.  Open `watch-app/the6-7game/the6-7game.xcodeproj` in **Xcode**.
+2.  Select the **Watch App** target.
+3.  Choose a Simulator (e.g., Apple Watch Series 9).
+4.  Run (`Cmd + R`).
 
-The Watch App is a native SwiftUI app for Apple Watch.
+### 3. Backend Management
+```bash
+# Push migrations to remote
+npx supabase db push
 
-**Prerequisites:**
-*   Mac with Xcode installed.
+# Deploy Edge Functions
+npx supabase functions deploy preview-questions --no-verify-jwt
+npx supabase functions deploy track-referral --no-verify-jwt
+```
 
-**Build Instructions:**
-1.  Open Xcode.
-2.  Create a new project in Xcode with the Product Name **"the6-7game"** (Watch-only App).
-    *   Organization Identifier: `net.metafan`
-    *   Point the project location to `6-7game-beta/watch-app/`.
-3.  Drag the **`Services` folder** and all **Swift files** from `watch-app/The67Game Watch App/` into your new Xcode project group.
-    *   **Important:** Select "Copy items if needed".
-    *   Replace any default files (like `ContentView.swift` or `the6_7gameApp.swift`) if prompted.
-4.  Select a Watch Simulator and run (`Cmd + R`).
+## 🔐 Environment Variables
 
-### 3. Backend (Supabase)
+The project uses a standard `.env` file in `parent-app/` for frontend keys and Supabase Secrets for backend keys.
 
-The backend is hosted on Supabase.
-*   **URL**: `https://nxdcttkyegnwnjnnjjqg.supabase.co`
-*   **Migrations**: Managed via `supabase/migrations`.
-*   **Edge Functions**: Deployed to Supabase.
+**Critical Secrets:**
+*   `GOOGLE_API_KEY`: Required for Gemini AI generation.
+*   `SUPABASE_SERVICE_ROLE_KEY`: Required for admin tasks in Edge Functions.
 
-## Features (MVP)
-
-*   **Authentication**: Email/Password login for parents.
-*   **Family Management**: Add children and generate pairing codes.
-    *   *Includes "Pull to Refresh" to update connection status.*
-*   **Pairing**: Securely link Watch App to Parent Account via 6-digit PIN.
-*   **Practice Mode**: Answer fast-paced math questions on the watch.
-*   **Battles**: Parent vs. Child async math battles (MVP logic).
-
-## License
+## 📜 License
 
 Copyright © MetaFan. All rights reserved.
