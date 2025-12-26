@@ -30,7 +30,7 @@ struct BattleView: View {
                     
                     Text("Time: \(timer)s")
                         .font(.caption)
-                        .foregroundColor(.yellow) // "Mustard" theme hint?
+                        .foregroundColor(.brandGold)
                         .padding(.bottom)
                     
                     // Multiple Choice Grid

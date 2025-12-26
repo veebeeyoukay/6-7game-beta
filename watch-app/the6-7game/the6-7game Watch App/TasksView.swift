@@ -26,11 +26,11 @@ struct TasksView: View {
                             .font(.headline)
                         Text("\(task.reward) Mollars")
                             .font(.caption)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.brandGold)
                     }
                     Spacer()
                     Image(systemName: "hand.raised.fill")
-                        .foregroundColor(.green)
+                        .foregroundColor(.brandTeal)
                 }
                 .padding(.vertical, 8)
             }

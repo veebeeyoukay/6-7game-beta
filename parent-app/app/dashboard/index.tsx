@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, FlatList, TouchableOpacity, Button, Alert } fro
 import { useRouter } from 'expo-router';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../components/AuthProvider';
+import { BrandColors, SemanticColors, BorderRadius, Spacing } from '../../constants/brand';
 
 type Child = {
     id: string;
@@ -102,13 +103,13 @@ export default function Dashboard() {
                 <Button
                     title="Add Child"
                     onPress={() => router.push('/dashboard/add-child')}
-                    color="#4A90E2"
+                    color={BrandColors.electricBlue}
                 />
                 <View style={{ marginTop: 10 }} >
                     <Button
                         title="Sign Out"
                         onPress={() => supabase.auth.signOut()}
-                        color="#FF4500"
+                        color={BrandColors.magenta}
                     />
                 </View>
             </View>
@@ -119,30 +120,30 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#1A1A1A',
+        padding: Spacing.xl,
+        backgroundColor: BrandColors.deepNavy,
         paddingTop: 60,
     },
     header: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#FFF',
-        marginBottom: 20,
+        color: BrandColors.softWhite,
+        marginBottom: Spacing.xl,
     },
     listContainer: {
         flex: 1,
     },
     emptyText: {
-        color: '#888',
+        color: SemanticColors.textMuted,
         textAlign: 'center',
         marginTop: 50,
         fontSize: 16,
     },
     childCard: {
-        backgroundColor: '#333',
-        padding: 15,
-        borderRadius: 10,
-        marginBottom: 10,
+        backgroundColor: SemanticColors.backgroundCard,
+        padding: Spacing.lg,
+        borderRadius: BorderRadius.md,
+        marginBottom: Spacing.md,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -150,24 +151,24 @@ const styles = StyleSheet.create({
     childName: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#FFF',
+        color: BrandColors.softWhite,
     },
     childStatus: {
         fontSize: 12,
-        color: '#AAA',
+        color: SemanticColors.textSecondary,
         marginTop: 4,
     },
     balanceContainer: {
-        backgroundColor: '#444',
-        padding: 8,
-        borderRadius: 8,
+        backgroundColor: SemanticColors.backgroundInput,
+        padding: Spacing.sm,
+        borderRadius: BorderRadius.md,
     },
     balanceText: {
-        color: '#FFD700',
+        color: BrandColors.warmGold,
         fontWeight: 'bold',
     },
     footer: {
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: Spacing.xl,
+        marginBottom: Spacing.xl,
     },
 });

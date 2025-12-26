@@ -1,27 +1,27 @@
 {
   "expo": {
-    "name": "6-7game-beta",
+    "name": "6-7 Game",
     "slug": "6-7game-beta",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/six-seven-app-logo.jpeg",
+    "scheme": "sixsevengame",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/six-seven-logo.jpeg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1A1A2E"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "6-7game-beta.metafan.net"
+      "bundleIdentifier": "net.metafan.the6-7game"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/six-seven-app-logo.jpeg",
+        "backgroundColor": "#1A1A2E"
       },
-      "package": "net.metafan.x67gamebeta"
+      "package": "net.metafan.the67game"
     },
     "web": {
       "bundler": "metro",

@@ -24,7 +24,7 @@ struct PracticeView: View {
             
             if showResult {
                 Text(isCorrect ? "Correct!" : "Try Again")
-                    .foregroundColor(isCorrect ? .green : .red)
+                    .foregroundColor(isCorrect ? .brandTeal : .brandMagenta)
             }
         }
     }

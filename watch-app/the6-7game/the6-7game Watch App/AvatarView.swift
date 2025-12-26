@@ -56,7 +56,7 @@ struct AvatarView: View {
             Button("Save Avatar") {
                 saveAvatar()
             }
-            .background(Color.green)
+            .background(Color.brandTeal)
             .cornerRadius(8)
         }
         .navigationTitle("Style")

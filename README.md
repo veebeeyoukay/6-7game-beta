@@ -2,6 +2,16 @@
 
 **The 6-7 Game** is a comprehensive gamified parenting and education platform. It turns math practice and daily chores into a "Mollar" economy, allowing 2nd-5th graders to earn currency through learning and validated behavior.
 
+## 📚 Key Documentation
+
+| Document | Purpose |
+|----------|---------|
+| **[CLAUDE.md](./CLAUDE.md)** | Instructions for AI coding assistants |
+| **[brand-compliance.md](./brand-compliance.md)** | Brand colors, typography, UI patterns |
+| **[6-7-game-creative-brief.md](./6-7-game-creative-brief.md)** | Full brand guidelines |
+| **[the-67-game-mvp-prd-v2.md](./the-67-game-mvp-prd-v2.md)** | Product requirements |
+| **[backlog.md](./backlog.md)** | Current backlog items |
+
 ## 🏗️ Architecture & Tech Stack
 
 This project is a **monorepo** containing the complete ecosystem:

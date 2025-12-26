@@ -4,7 +4,7 @@ struct AnswerButton: View {
     let text: String
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             Text(text)
@@ -12,7 +12,7 @@ struct AnswerButton: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(isSelected ? Color.green : Color.blue)
+                .background(isSelected ? Color.brandTeal : Color.brandBlue)
                 .cornerRadius(10)
         }
         .buttonStyle(PlainButtonStyle()) // Important for WatchOS list/scroll context

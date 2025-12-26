@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BrandColors, SemanticColors, BorderRadius, Spacing } from '../../constants/brand';
 
 export default function WelcomeScreen() {
     return (
@@ -45,66 +46,66 @@ function Step({ number, text }: { number: string, text: string }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1A1A1A',
+        backgroundColor: BrandColors.deepNavy,
     },
     content: {
         flex: 1,
-        padding: 24,
+        padding: Spacing['2xl'],
         justifyContent: 'center',
     },
     emoji: {
         fontSize: 64,
-        marginBottom: 20,
+        marginBottom: Spacing.xl,
         textAlign: 'center',
     },
     title: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: BrandColors.softWhite,
         textAlign: 'center',
-        marginBottom: 16,
+        marginBottom: Spacing.lg,
     },
     subtitle: {
         fontSize: 18,
-        color: '#A0A0A0',
+        color: SemanticColors.textSecondary,
         textAlign: 'center',
-        marginBottom: 48,
+        marginBottom: Spacing['5xl'],
         lineHeight: 24,
     },
     stepsContainer: {
-        marginBottom: 48,
+        marginBottom: Spacing['5xl'],
     },
     step: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: Spacing.xl,
     },
     stepCircle: {
         width: 32,
         height: 32,
         borderRadius: 16,
-        backgroundColor: '#333333',
+        backgroundColor: SemanticColors.backgroundCard,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 16,
+        marginRight: Spacing.lg,
     },
     stepNumber: {
-        color: '#4A90E2',
+        color: BrandColors.electricBlue,
         fontWeight: 'bold',
         fontSize: 16,
     },
     stepText: {
-        color: '#E0E0E0',
+        color: BrandColors.softWhite,
         fontSize: 16,
     },
     button: {
-        backgroundColor: '#4A90E2',
-        paddingVertical: 16,
-        borderRadius: 12,
+        backgroundColor: BrandColors.magenta,
+        paddingVertical: Spacing.lg,
+        borderRadius: BorderRadius.lg,
         alignItems: 'center',
     },
     buttonText: {
-        color: '#FFFFFF',
+        color: BrandColors.softWhite,
         fontSize: 18,
         fontWeight: '600',
     },

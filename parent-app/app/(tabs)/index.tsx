@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../components/AuthProvider';
+import { BrandColors, SemanticColors, BorderRadius, Spacing } from '../../constants/brand';
 
 type Child = {
   id: string;
@@ -114,7 +115,7 @@ export default function HomeScreen() {
         {children.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyText}>No kids added yet.</Text>
-            <TouchableOpacity onPress={() => router.push('/onboarding/children')}><Text style={{ color: '#4A90E2', marginTop: 10 }}>Add Child</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/onboarding/children')}><Text style={{ color: BrandColors.electricBlue, marginTop: 10 }}>Add Child</Text></TouchableOpacity>
           </View>
         ) : (
           <FlatList
@@ -145,22 +146,22 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1A1A',
-    paddingHorizontal: 20,
+    backgroundColor: BrandColors.deepNavy,
+    paddingHorizontal: Spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 24,
+    marginTop: Spacing.xl,
+    marginBottom: Spacing['2xl'],
   },
   greeting: {
-    color: '#A0A0A0',
+    color: SemanticColors.textSecondary,
     fontSize: 14,
   },
   familyName: {
-    color: '#FFF',
+    color: BrandColors.softWhite,
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -168,42 +169,42 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   totalLabel: {
-    color: '#A0A0A0',
+    color: SemanticColors.textSecondary,
     fontSize: 12,
   },
   totalAmount: {
-    color: '#FFD700',
+    color: BrandColors.warmGold,
     fontSize: 20,
     fontWeight: 'bold',
   },
   statsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 32,
-    gap: 12,
+    marginBottom: Spacing['3xl'],
+    gap: Spacing.md,
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#2A2A2A',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: SemanticColors.backgroundCard,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.lg,
     alignItems: 'center',
   },
   statValue: {
-    color: '#FFF',
+    color: BrandColors.softWhite,
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
   },
   statLabel: {
-    color: '#888',
+    color: SemanticColors.textMuted,
     fontSize: 12,
   },
   sectionTitle: {
-    color: '#FFF',
+    color: BrandColors.softWhite,
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: Spacing.lg,
   },
   listContainer: {
     flex: 1,
@@ -213,13 +214,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   emptyText: {
-    color: '#666',
+    color: SemanticColors.textMuted,
   },
   childCard: {
-    backgroundColor: '#333',
-    padding: 16,
-    borderRadius: 16,
-    marginBottom: 12,
+    backgroundColor: SemanticColors.backgroundCard,
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.xl,
+    marginBottom: Spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -227,13 +228,13 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#4A90E2',
+    backgroundColor: BrandColors.electricBlue,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: Spacing.lg,
   },
   avatarInitial: {
-    color: '#FFF',
+    color: BrandColors.softWhite,
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -241,23 +242,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   childName: {
-    color: '#FFF',
+    color: BrandColors.softWhite,
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
   },
   childStatus: {
-    color: '#AAA',
+    color: SemanticColors.textSecondary,
     fontSize: 12,
   },
   balanceContainer: {
-    backgroundColor: '#444',
+    backgroundColor: SemanticColors.backgroundInput,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: BorderRadius.md,
   },
   balanceText: {
-    color: '#FFD700',
+    color: BrandColors.warmGold,
     fontWeight: 'bold',
   },
   fabContainer: {
@@ -265,13 +266,13 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     alignItems: 'center',
-    gap: 16,
+    gap: Spacing.lg,
   },
   fab: {
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#FF4500',
+    backgroundColor: BrandColors.magenta,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
@@ -281,13 +282,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   fabSecondary: {
-    backgroundColor: '#27AE60',
+    backgroundColor: BrandColors.brightTeal,
     width: 48,
     height: 48,
     borderRadius: 24,
   },
   fabIcon: {
     fontSize: 24,
-    color: '#FFF',
+    color: BrandColors.softWhite,
   },
 });

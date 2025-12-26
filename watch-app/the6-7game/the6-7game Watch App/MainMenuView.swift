@@ -9,17 +9,17 @@ struct MainMenuView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(Color.brandBlue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                
+
                 NavigationLink(destination: BattleView()) {
                     Text("Battle Mode")
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.red)
+                        .background(Color.brandMagenta)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -29,7 +29,7 @@ struct MainMenuView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green)
+                        .background(Color.brandTeal)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -39,14 +39,14 @@ struct MainMenuView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.purple)
-                        .foregroundColor(.white)
+                        .background(Color.brandGold)
+                        .foregroundColor(.brandNavy)
                         .cornerRadius(10)
                 }
-                
+
                 Text("Mollars: 150")
                     .font(.caption)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.brandGold)
             }
             .navigationTitle("6-7 Game")
         }

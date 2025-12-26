@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Text, Alert, TouchableOpacity } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { router } from 'expo-router';
+import { BrandColors, SemanticColors, BorderRadius, Spacing } from '../constants/brand';
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
@@ -72,7 +73,7 @@ export default function AuthScreen() {
                 />
             </View>
             <View style={[styles.verticallySpaced, styles.mt20]}>
-                <Button title={isLogin ? "Sign in" : "Sign up"} disabled={loading} onPress={handleAuth} color="#4A90E2" />
+                <Button title={isLogin ? "Sign in" : "Sign up"} disabled={loading} onPress={handleAuth} color={BrandColors.electricBlue} />
             </View>
             <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={styles.switchContainer}>
                 <Text style={styles.switchText}>
@@ -86,14 +87,14 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 24,
-        backgroundColor: '#1A1A1A', // Dark mode background
+        padding: Spacing['2xl'],
+        backgroundColor: BrandColors.deepNavy,
         justifyContent: 'center',
     },
     title: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: '#E0E0E0',
+        color: BrandColors.softWhite,
         textAlign: 'center',
         marginBottom: 40,
     },
@@ -103,22 +104,22 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
     },
     mt20: {
-        marginTop: 20,
+        marginTop: Spacing.xl,
     },
     input: {
-        backgroundColor: '#333',
-        color: '#FFF',
-        padding: 12,
-        borderRadius: 8,
+        backgroundColor: SemanticColors.backgroundInput,
+        color: BrandColors.softWhite,
+        padding: Spacing.md,
+        borderRadius: BorderRadius.md,
         fontSize: 16,
         borderWidth: 1,
-        borderColor: '#444',
+        borderColor: SemanticColors.borderDefault,
     },
     switchContainer: {
-        marginTop: 20,
+        marginTop: Spacing.xl,
         alignItems: 'center',
     },
     switchText: {
-        color: '#4A90E2',
+        color: BrandColors.electricBlue,
     }
 });

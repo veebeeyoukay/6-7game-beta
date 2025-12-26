@@ -1,29 +1,47 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Theme colors for the 6-7 Game app.
+ * Uses brand colors from brand.ts for consistency.
+ *
+ * For the full brand design system, see: constants/brand.ts
  */
 
 import { Platform } from 'react-native';
+import { BrandColors, SemanticColors } from './brand';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Brand-aligned tint colors
+const tintColorLight = BrandColors.electricBlue;
+const tintColorDark = BrandColors.brightTeal;
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
+    text: BrandColors.charcoal,
+    background: BrandColors.softWhite,
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
+    // Brand extensions
+    primary: BrandColors.magenta,
+    secondary: BrandColors.electricBlue,
+    accent: BrandColors.brightTeal,
+    gold: BrandColors.warmGold,
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
+    text: BrandColors.softWhite,
+    background: BrandColors.deepNavy,
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
+    // Brand extensions
+    primary: BrandColors.magenta,
+    secondary: BrandColors.electricBlue,
+    accent: BrandColors.brightTeal,
+    gold: BrandColors.warmGold,
+    // Semantic shortcuts
+    card: SemanticColors.backgroundCard,
+    input: SemanticColors.backgroundInput,
+    border: SemanticColors.borderDefault,
   },
 };
 

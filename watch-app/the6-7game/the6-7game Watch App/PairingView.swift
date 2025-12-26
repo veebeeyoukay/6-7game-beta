@@ -24,14 +24,14 @@ struct PairingView: View {
                 }
                 .disabled(pairingCode.count != 6)
                 .padding()
-                .background(Color.blue)
+                .background(Color.brandBlue)
                 .foregroundColor(.white)
                 .cornerRadius(8)
             }
-            
+
             if !errorMessage.isEmpty {
                 Text(errorMessage)
-                    .foregroundColor(.red)
+                    .foregroundColor(.brandMagenta)
                     .font(.caption)
             }
         }

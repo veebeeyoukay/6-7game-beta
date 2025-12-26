@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../../lib/supabase';
 import { router } from 'expo-router';
+import { BrandColors, SemanticColors, BorderRadius, Spacing } from '../../constants/brand';
 
 export default function SettingsScreen() {
     const handleSignOut = async () => {
@@ -25,7 +26,7 @@ export default function SettingsScreen() {
                         <Text style={styles.itemText}>Manage Family</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.item} onPress={() => router.push('/settings/referrals')}>
-                        <Text style={[styles.itemText, { color: '#FFD700' }]}>Refer & Earn 🏵️</Text>
+                        <Text style={[styles.itemText, { color: BrandColors.warmGold }]}>Refer & Earn 🏵️</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -40,48 +41,48 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1A1A1A',
+        backgroundColor: BrandColors.deepNavy,
     },
     content: {
         flex: 1,
-        padding: 24,
+        padding: Spacing['2xl'],
     },
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#FFFFFF',
-        marginBottom: 32,
+        color: BrandColors.softWhite,
+        marginBottom: Spacing['3xl'],
     },
     section: {
-        marginBottom: 32,
+        marginBottom: Spacing['3xl'],
     },
     sectionTitle: {
-        color: '#666',
-        marginBottom: 8,
+        color: SemanticColors.textMuted,
+        marginBottom: Spacing.sm,
         textTransform: 'uppercase',
         fontSize: 12,
         fontWeight: 'bold',
     },
     item: {
-        backgroundColor: '#333',
-        padding: 16,
-        borderRadius: 10,
-        marginBottom: 8,
+        backgroundColor: SemanticColors.backgroundCard,
+        padding: Spacing.lg,
+        borderRadius: BorderRadius.md,
+        marginBottom: Spacing.sm,
     },
     itemText: {
-        color: '#FFF',
+        color: BrandColors.softWhite,
         fontSize: 16,
     },
     signOutButton: {
-        backgroundColor: '#2A2A2A',
-        padding: 16,
-        borderRadius: 12,
+        backgroundColor: SemanticColors.backgroundCard,
+        padding: Spacing.lg,
+        borderRadius: BorderRadius.lg,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#FF4500',
+        borderColor: BrandColors.magenta,
     },
     signOutText: {
-        color: '#FF4500',
+        color: BrandColors.magenta,
         fontWeight: 'bold',
         fontSize: 16,
     },
