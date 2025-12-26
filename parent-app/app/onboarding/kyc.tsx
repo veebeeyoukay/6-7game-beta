@@ -68,9 +68,9 @@ export default function KYCScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.title}>Identity Verification</Text>
+                <Text style={styles.title}>Parental Verification</Text>
                 <Text style={styles.subtitle}>
-                    To keep our community safe for children, we need to verify you are an adult. Please upload a driver's license or government ID.
+                    We need to verify you&apos;re an adult to comply with COPPA (Children&apos;s Online Privacy Protection Act). Please upload a driver&apos;s license or government ID.
                 </Text>
 
                 <View style={styles.uploadContainer}>

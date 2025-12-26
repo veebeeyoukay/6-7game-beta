@@ -10,7 +10,7 @@ export default function WelcomeScreen() {
                 <Text style={styles.emoji}>👋</Text>
                 <Text style={styles.title}>Welcome to The 6-7 Game</Text>
                 <Text style={styles.subtitle}>
-                    Let's set up your family profile to get started with battles, validation, and learning.
+                    Let&apos;s set up your family profile to get started with battles, validation, and learning.
                 </Text>
 
                 <View style={styles.stepsContainer}>
