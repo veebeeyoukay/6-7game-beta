@@ -8,18 +8,38 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function ProfileScreen() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [dob, setDob] = useState(new Date());
+    const [dob, setDob] = useState(''); // Changed to string for text input
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [dateObj, setDateObj] = useState(new Date()); // Keep track against object for Picker
+
     const [state, setState] = useState('FL');
     const [zip, setZip] = useState('');
     const [referralCode, setReferralCode] = useState(''); // New State
     const [loading, setLoading] = useState(false);
 
+    // Add validation helper
+    const isValidDate = (dateString: string) => {
+        const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(19|20)\d{2}$/;
+        if (!regex.test(dateString)) return false;
+        const [mm, dd, yyyy] = dateString.split('/').map(Number);
+        const date = new Date(yyyy, mm - 1, dd);
+        return date.getFullYear() === yyyy && date.getMonth() === mm - 1 && date.getDate() === dd;
+    };
+
     const handleNext = async () => {
-        if (!firstName || !lastName || !zip) {
+        if (!firstName || !lastName || !zip || !dob) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
+
+        if (!isValidDate(dob)) {
+            Alert.alert('Error', 'Please enter a valid date of birth (MM/DD/YYYY)');
+            return;
+        }
+
+        // Convert MM/DD/YYYY to YYYY-MM-DD
+        const [mm, dd, yyyy] = dob.split('/');
+        const isoDate = `${yyyy}-${mm}-${dd}`;
 
         setLoading(true);
         try {
@@ -40,10 +60,10 @@ export default function ProfileScreen() {
                     .update({
                         first_name: firstName,
                         last_name: lastName,
-                        date_of_birth: dob.toISOString().split('T')[0],
+                        date_of_birth: isoDate,
                         state: state,
                         zip_code: zip,
-                        referred_by_code: referralCode.trim() || null // Save if present
+                        referred_by_code: referralCode.trim() || null
                     })
                     .eq('id', user.id);
 
@@ -54,6 +74,18 @@ export default function ProfileScreen() {
             Alert.alert('Error', error.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const onDateChange = (event: any, selectedDate?: Date) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            setDateObj(selectedDate);
+            // Format to MM/DD/YYYY
+            const mm = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+            const dd = selectedDate.getDate().toString().padStart(2, '0');
+            const yyyy = selectedDate.getFullYear();
+            setDob(`${mm}/${dd}/${yyyy}`);
         }
     };
 
@@ -86,25 +118,45 @@ export default function ProfileScreen() {
 
                 <View style={styles.formGroup}>
                     <Text style={styles.label}>Date of Birth</Text>
-                    <TouchableOpacity
-                        style={styles.input}
-                        onPress={() => setShowDatePicker(true)}
-                    >
-                        <Text style={[styles.inputText, { color: '#FFF' }]}>
-                            {dob.toLocaleDateString()}
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={styles.dateRow}>
+                        <TextInput
+                            style={[styles.input, { flex: 1, marginRight: 8 }]}
+                            value={dob}
+                            onChangeText={(text) => {
+                                // Remove any non-numeric characters
+                                const cleaned = text.replace(/[^0-9]/g, '');
+                                let formatted = cleaned;
+
+                                // Auto-insert slashes
+                                if (cleaned.length > 2) {
+                                    formatted = cleaned.substring(0, 2) + '/' + cleaned.substring(2);
+                                }
+                                if (cleaned.length > 4) {
+                                    formatted = formatted.substring(0, 5) + '/' + cleaned.substring(4, 8);
+                                }
+
+                                setDob(formatted);
+                            }}
+                            placeholder="MM/DD/YYYY"
+                            placeholderTextColor="#666"
+                            keyboardType="numeric"
+                            maxLength={10}
+                        />
+                        <TouchableOpacity
+                            style={styles.iconButton}
+                            onPress={() => setShowDatePicker(true)}
+                        >
+                            <Text style={styles.iconText}>📅</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 {showDatePicker && (
                     <DateTimePicker
-                        value={dob}
+                        value={dateObj}
                         mode="date"
                         display="default"
-                        onChange={(event, selectedDate) => {
-                            setShowDatePicker(false);
-                            if (selectedDate) setDob(selectedDate);
-                        }}
+                        onChange={onDateChange}
                         maximumDate={new Date()}
                     />
                 )}
@@ -208,5 +260,21 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 18,
         fontWeight: '600',
+    },
+    dateRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconButton: {
+        backgroundColor: '#333',
+        padding: 12,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#444',
+    },
+    iconText: {
+        fontSize: 20,
     },
 });

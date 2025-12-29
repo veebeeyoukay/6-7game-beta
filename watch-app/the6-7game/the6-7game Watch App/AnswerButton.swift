@@ -8,7 +8,7 @@ struct AnswerButton: View {
     var body: some View {
         Button(action: action) {
             Text(text)
-                .font(.system(size: 20, weight: .bold))
+                .font(Font.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()

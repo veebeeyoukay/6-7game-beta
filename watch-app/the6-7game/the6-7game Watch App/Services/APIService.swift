@@ -12,7 +12,7 @@ class APIService {
         request.setValue("Bearer \(anonKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let body = ["code": code]
+        let body = ["code": code.uppercased()]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         URLSession.shared.dataTask(with: request) { data, response, error in

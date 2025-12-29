@@ -12,6 +12,10 @@ import SwiftUI
 
 extension Color {
     // Primary Palette (from Creative Brief)
+    // NOTE: These are commented out because Xcode automatically generates symbols for Assets.
+    // Uncomment if you disable "Generate Swift Asset Symbol Extensions" in Build Settings.
+    
+    /*
     static let brandNavy = Color("BrandNavy")           // #1A1A2E - Primary backgrounds
     static let brandBlue = Color("BrandBlue")           // #4361EE - CTAs, interactive elements
     static let brandTeal = Color("BrandTeal")           // #00D9FF - Accents, success states
@@ -22,8 +26,11 @@ extension Color {
     // Mollar Tier Colors
     static let mollarBronze = Color("MollarBronze")     // #B87333
     static let mollarSilver = Color("MollarSilver")     // #C0C0C0
-    static let mollarGold = Color("BrandGold")          // #FFD700 (same as brandGold)
+    */
+    static let mollarGold = Color("BrandGold")          // #FFD700 (same as brandGold) - ALIAS, No Asset
+    /*
     static let mollarDiamond = Color("MollarDiamond")   // #B9F2FF
+    */
 }
 
 // MARK: - Semantic Color Aliases

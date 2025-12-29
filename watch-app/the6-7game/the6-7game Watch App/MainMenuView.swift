@@ -6,7 +6,7 @@ struct MainMenuView: View {
             VStack(spacing: 20) {
                 NavigationLink(destination: PracticeView()) {
                     Text("Practice Mode")
-                        .font(.headline)
+                        .font(Font.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.brandBlue)
@@ -16,7 +16,7 @@ struct MainMenuView: View {
 
                 NavigationLink(destination: BattleView()) {
                     Text("Battle Mode")
-                        .font(.headline)
+                        .font(Font.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.brandMagenta)
@@ -26,7 +26,7 @@ struct MainMenuView: View {
 
                 NavigationLink(destination: TasksView()) {
                     Text("Tasks")
-                        .font(.headline)
+                        .font(Font.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.brandTeal)
@@ -36,7 +36,7 @@ struct MainMenuView: View {
 
                 NavigationLink(destination: AvatarView()) {
                     Text("Avatar")
-                        .font(.headline)
+                        .font(Font.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.brandGold)
@@ -45,7 +45,7 @@ struct MainMenuView: View {
                 }
 
                 Text("Mollars: 150")
-                    .font(.caption)
+                    .font(Font.caption)
                     .foregroundColor(.brandGold)
             }
             .navigationTitle("6-7 Game")

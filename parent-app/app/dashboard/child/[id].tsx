@@ -66,6 +66,27 @@ export default function ChildProfile() {
         }
     }
 
+    const generatePairingCode = async () => {
+        setSaving(true);
+        try {
+            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            const { error } = await supabase
+                .from('children')
+                .update({ pairing_code: code })
+                .eq('id', id);
+
+            if (error) throw error;
+
+            // Refresh data
+            fetchChildDetails();
+            Alert.alert('Success', 'Pairing code generated: ' + code);
+        } catch (error: any) {
+            Alert.alert('Error', error.message);
+        } finally {
+            setSaving(false);
+        }
+    };
+
     if (loading) {
         return (
             <View style={styles.container}>
@@ -100,7 +121,10 @@ export default function ChildProfile() {
             <View style={styles.infoCard}>
                 <Text style={styles.infoTitle}>Stats</Text>
                 <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>💰 Mollars Balance:</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={styles.mollarIcon}><Text style={styles.mollarText}>M</Text></View>
+                        <Text style={styles.infoLabel}> Mollars Balance:</Text>
+                    </View>
                     <Text style={styles.infoValue}>{mollars}</Text>
                 </View>
                 <View style={styles.infoRow}>
@@ -117,7 +141,11 @@ export default function ChildProfile() {
                 </View>
                 <View style={styles.infoRow}>
                     <Text style={styles.infoLabel}>🔑 Pairing Code:</Text>
-                    <Text style={styles.infoValue}>{childData?.pairing_code}</Text>
+                    {childData?.pairing_code ? (
+                        <Text style={styles.infoValue}>{childData.pairing_code}</Text>
+                    ) : (
+                        <Button title="Generate Code" onPress={generatePairingCode} color="#4CD964" />
+                    )}
                 </View>
             </View>
 
@@ -203,5 +231,19 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: 10,
-    }
+    },
+    mollarIcon: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: '#FFD700',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 8,
+    },
+    mollarText: {
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: 12,
+    },
 });

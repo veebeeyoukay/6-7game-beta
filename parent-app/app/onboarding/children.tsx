@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Modal, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { supabase } from '../../lib/supabase';
 import { Picker } from '@react-native-picker/picker'; // You might need to install this or use a simple modal
 // Note: using simple list for validation to avoid dependency hell in MVP if picker missing
 // But plan said (2-5).
 
 export default function ChildrenScreen() {
+    const insets = useSafeAreaInsets();
     const [children, setChildren] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [familyId, setFamilyId] = useState<string | null>(null);
@@ -24,13 +25,18 @@ export default function ChildrenScreen() {
 
     const fetchFamily = async () => {
         const { data: { user } } = await supabase.auth.getUser();
+        console.log('Current user:', user?.id);
         if (user) {
-            const { data } = await supabase
+            const { data, error } = await supabase
                 .from('families')
                 .select('id')
                 .eq('created_by', user.id)
                 .single();
+
+            console.log('Family fetch result:', { data, error });
+
             if (data) setFamilyId(data.id);
+            if (error) Alert.alert('Error', 'Could not fetch family: ' + error.message);
         }
     };
 
@@ -39,7 +45,11 @@ export default function ChildrenScreen() {
             Alert.alert('Required', 'Please enter child name');
             return;
         }
-        if (!familyId) return;
+        if (!familyId) {
+            console.error('No familyId found');
+            Alert.alert('Error', 'Family not found. Please try creating a family again.');
+            return;
+        }
 
         try {
             const { data, error } = await supabase
@@ -50,7 +60,8 @@ export default function ChildrenScreen() {
                     grade: parseInt(grade),
                     birth_month: parseInt(birthMonth),
                     birth_year: parseInt(birthYear),
-                    state: 'FL' // Inherit from parent in real app
+                    state: 'FL', // Inherit from parent in real app
+                    pairing_code: Math.random().toString(36).substring(2, 8).toUpperCase()
                 })
                 .select()
                 .single();
@@ -91,7 +102,12 @@ export default function ChildrenScreen() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Text style={styles.backButtonText}>← Back</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView contentContainerStyle={styles.content}>
                 <Text style={styles.title}>Add your Children</Text>
 
@@ -142,10 +158,7 @@ export default function ChildrenScreen() {
                 <View style={styles.listContainer}>
                     <Text style={styles.sectionTitle}>Added Children:</Text>
                     {children.map((child, index) => (
-                        <View key={index} style={styles.childCard}>
-                            <Text style={styles.childName}>{child.first_name}</Text>
-                            <Text style={styles.childDetail}>Grade {child.grade}</Text>
-                        </View>
+                        <ChildListItem key={index} child={child} />
                     ))}
                 </View>
 
@@ -157,7 +170,31 @@ export default function ChildrenScreen() {
                     <Text style={styles.buttonText}>{loading ? 'Finishing...' : 'Complete Setup'}</Text>
                 </TouchableOpacity>
             </ScrollView>
-        </SafeAreaView>
+        </View>
+    );
+}
+
+function ChildListItem({ child }: { child: any }) {
+    const [revealCode, setRevealCode] = useState(false);
+
+    return (
+        <View style={styles.childCard}>
+            <View>
+                <Text style={styles.childName}>{child.first_name}</Text>
+                <Text style={styles.childDetail}>Grade {child.grade}</Text>
+            </View>
+            <View style={styles.pairingContainer}>
+                <Text style={styles.pairingLabel}>Pairing Code:</Text>
+                <View style={styles.codeRow}>
+                    <Text style={styles.pairingCode}>
+                        {revealCode ? (child.pairing_code || 'N/A') : '******'}
+                    </Text>
+                    <TouchableOpacity onPress={() => setRevealCode(!revealCode)} style={styles.eyeButton}>
+                        <Text>{revealCode ? '🙈' : '👁️'}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
     );
 }
 
@@ -261,5 +298,39 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    header: {
+        paddingHorizontal: 24,
+        paddingTop: 10,
+        paddingBottom: 0,
+    },
+    backButton: {
+        paddingVertical: 8,
+    },
+    backButtonText: {
+        color: '#A0A0A0',
+        fontSize: 16,
+    },
+    pairingContainer: {
+        alignItems: 'flex-end',
+    },
+    pairingLabel: {
+        color: '#888',
+        fontSize: 12,
+        marginBottom: 2,
+    },
+    codeRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    pairingCode: {
+        color: '#4A90E2',
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontFamily: 'monospace',
+    },
+    eyeButton: {
+        padding: 4,
     },
 });
