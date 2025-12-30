@@ -1,0 +1,14 @@
+
+# macOS
+.DS_Store
+.des_store
+
+# Editors
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Environment
+.env
