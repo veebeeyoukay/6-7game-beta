@@ -1,9 +1,11 @@
 # 6-7 Game Brand Compliance Guide
 
-> **Living Document** — Last updated: December 2024
+> **Quick Reference** — Last updated: December 2024
 >
-> This document is the source of truth for brand consistency across all apps and platforms.
-> All coding assistants and developers MUST reference this guide when making UI changes.
+> **⚠️ IMPORTANT:** This is a quick reference for active development. The **source of truth** is now located at:
+> **`_ai_wk/reference/brand-guide.md`** (project root)
+>
+> This document provides a quick reference for common brand patterns. For complete brand guidelines including voice, tone, and full specifications, see the consolidated brand guide.
 
 ---
 
@@ -279,6 +281,7 @@ When updating a screen to brand compliance:
 
 ## 8. Related Documents
 
+- **`_ai_wk/reference/brand-guide.md`** — **CONSOLIDATED SOURCE OF TRUTH** (project root)
 - `6-7-game-creative-brief.md` — Full marketing and brand guidelines
 - `parent-app/constants/brand.ts` — React Native design system
 - `watch-app/.../BrandColors.swift` — SwiftUI color definitions

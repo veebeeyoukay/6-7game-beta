@@ -33,11 +33,11 @@ The 6-7 Game is a gamified parenting and education platform with:
 
 - **[`the-67-game-mvp-prd-v2.md`](./the-67-game-mvp-prd-v2.md)** — Full PRD
 - **[`6-7-game-creative-brief.md`](./6-7-game-creative-brief.md)** — Brand voice, messaging, visual identity
-- **[`67-game-phase-2-development-plan_1.md`](./67-game-phase-2-development-plan_1.md)** — Development roadmap
+- **[`_ai_wk/planning/phase-2-plan.md`](./_ai_wk/planning/phase-2-plan.md)** — Development roadmap
 
 ### 3. Backlog
 
-- **[`backlog.md`](./backlog.md)** — Current backlog items
+- **[`backlog.md`](./backlog.md)** — Legacy backlog (see `_ai_wk/todos.md` for active todos)
 
 ---
 

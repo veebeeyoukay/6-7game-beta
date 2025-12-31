@@ -1,0 +1,128 @@
+{
+  "name": "Validation Request Notification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "validation-request",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT u.email, u.first_name \nFROM users u \nJOIN family_members fm ON u.id = fm.user_id \nWHERE fm.family_id = '{{$json[\"familyId\"]}}' \nAND fm.role = 'adult'"
+      },
+      "id": "get-family-adults",
+      "name": "Get Family Adults",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "postgres": {
+          "id": "3",
+          "name": "Supabase - 6-7 Game"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-parents",
+      "name": "Loop Parents",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "notifications@the67game.com",
+        "toEmail": "={{$json[\"email\"]}}",
+        "subject": "{{$node[\"Webhook\"].json[\"childName\"]}} needs validation! 🌟",
+        "emailType": "html",
+        "message": "<!DOCTYPE html><html><body style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;\"><h2 style=\"color: #E91E8C;\">Validation Request</h2><p>Hi <strong>{{$json[\"first_name\"]}}</strong>,</p><p><strong>{{$node[\"Webhook\"].json[\"childName\"]}}</strong> completed:</p><div style=\"background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0;\"><h3 style=\"margin: 0 0 10px 0; color: #4361EE;\">{{$node[\"Webhook\"].json[\"taskName\"]}}</h3><p style=\"margin: 0; font-size: 18px; color: #FFD700;\">Reward: <strong>{{$node[\"Webhook\"].json[\"mollarsReward\"]}} Mollars</strong></p></div>{{$node[\"Webhook\"].json[\"photoUrl\"] ? '<div style=\"margin: 20px 0;\"><img src=\"' + $node[\"Webhook\"].json[\"photoUrl\"] + '\" style=\"max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);\"></div>' : ''}}<p><strong>Open the app to approve or deny this request.</strong></p><p style=\"font-size: 14px; color: #666; margin-top: 20px;\">⏰ This request expires in 24 hours</p><hr style=\"margin: 30px 0; border: none; border-top: 1px solid #ddd;\"><p style=\"font-size: 12px; color: #666;\">The 6-7 Game | Gamified Learning Platform</p></body></html>"
+      },
+      "id": "sendgrid-email",
+      "name": "SendGrid",
+      "type": "n8n-nodes-base.sendGrid",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "sendGridApi": {
+          "id": "1",
+          "name": "SendGrid - 6-7 Game"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"success\": true, \"notified\": {{$node[\"Get Family Adults\"].json.length}}}"
+      },
+      "id": "respond-success",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Family Adults",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Family Adults": {
+      "main": [
+        [
+          {
+            "node": "Loop Parents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Parents": {
+      "main": [
+        [
+          {
+            "node": "SendGrid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SendGrid": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-31T00:00:00.000Z",
+  "versionId": "1"
+}

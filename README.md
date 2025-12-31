@@ -10,7 +10,7 @@
 | **[brand-compliance.md](./brand-compliance.md)** | Brand colors, typography, UI patterns |
 | **[6-7-game-creative-brief.md](./6-7-game-creative-brief.md)** | Full brand guidelines |
 | **[the-67-game-mvp-prd-v2.md](./the-67-game-mvp-prd-v2.md)** | Product requirements |
-| **[backlog.md](./backlog.md)** | Current backlog items |
+| **[backlog.md](./backlog.md)** | Current backlog items (see `_ai_wk/todos.md` for active todos) |
 
 ## 🏗️ Architecture & Tech Stack
 
